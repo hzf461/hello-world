@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <script src="./lib/node_modules/vue/dist/vue.min.js"></script>
+  <style>
+    .bg {
+      width: 100%;
+      height: 1000px;
+      background: url(./images/0.jpg) no-repeat fixed 80% 80%;
+      background-size: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .toggle {
+      position: absolute;
+      top: 0;
+      left: 36px;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    .nav {
+      width: 100%;
+      height: 140px;
+      position: absolute;
+      top: -140px;
+      transition: top 1s ease;
+      z-index: 9;
+      background: rgba(255, 255, 255, .8);
+    }
+
+    .nav.show {
+      top: 0px;
+    }
+
+    .nav .nav-list {
+      width: 1060px;
+      height: 140px;
+      margin: 0 auto;
+    }
+
+    .nav .nav-list .item {
+      width: 150px;
+      height: 100px;
+      background: #f7f7f7;
+      border-radius: 10px;
+      float: left;
+      margin: 20px 20px 0 0;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .nav .nav-list .item img {
+      width: 160px;
+      height: 100px;
+    }
+
+    .nav .nav-list .item.last {
+      margin-right: 0;
+    }
+
+    .nav .nav-list .item:hover:after {
+      content: '';
+      width: 160px;
+      height: 100px;
+      text-align: center;
+      background: rgba(0, 0, 0, .6);
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 99;
+    }
+
+    .nav .nav-list .item .tips {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 30px;
+      height: 30px;
+      background: url(images/tips.png) no-repeat -92px -2px;
+      text-align: center;
+      opacity: 0;
+    }
+
+    .nav .nav-list .item .tips.active {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="app">
+    <div class="bg" ref="bgdiv" id="bg"></div>
+    <div class="toggle" id="toggle" @click="flag = !flag">
+      <img src="images/button.png" alt="">
+    </div>
+    <div :class="['nav', {'show': flag}]" id="nav">
+      <ul class="nav-list" id="nav-list">
+        <li class="item" @click="toggle(index)" @mouseleave="mouseleave" @mouseenter="hover(index)" v-for="(item, index) in list"
+          :key="index">
+          <div :class="['tips', { 'active': index == currentIndex }]"></div>
+          <img :src="item">
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        flag: false,
+        currentIndex: 0,
+        list: ['images/0.jpg', 'images/1.jpg', 'images/2.jpg', 'images/3.jpg', 'images/4.jpg', 'images/5.jpg']
+      },
+      methods: {
+        toggle(index) {
+          this.currentIndex = index
+        },
+        hover(index) {
+          this.$refs.bgdiv.style.backgroundImage = `url(images/${index}.jpg)`
+        },
+        mouseleave() {
+          this.$refs.bgdiv.style.backgroundImage = `url(images/${this.currentIndex}.jpg)`
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>
